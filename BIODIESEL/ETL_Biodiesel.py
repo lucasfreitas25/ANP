@@ -4,7 +4,7 @@ import pandas as pd
 import openpyxl
 from openpyxl.styles import Border, Side, Font
 from openpyxl.utils import get_column_letter
-
+from datetime import datetime
 
 url = 'https://www.gov.br/anp/pt-br/centrais-de-conteudo/dados-abertos/arquivos/pb-da-biodiesel.zip'
 arquivo = 'pb-da-biodiesel.zip'
@@ -16,19 +16,41 @@ with ZipFile(arquivo, "r") as zip:
     
 df_capacidade = pd.read_csv('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\DADOS\\ANP\\BIODIESEL\\Dados em csv\\Biodiesel_DadosAbertos_CSV_Capacidade.csv')
 df_capacidade['CNPJ'] = df_capacidade['CNPJ'].astype(str)
+#APLICA MUDANÇA NA DATA 
+df_capacidade.rename(columns={'Mês/Ano': 'Data'}, inplace=True)
+df_capacidade['Data'] = pd.to_datetime(df_capacidade['Data'], format='%m/%Y', errors='coerce')
+df_capacidade['Data'] = df_capacidade['Data'].dt.strftime('%d/%m/%Y') #VOLTA PARA STRING NO FORMATO DESEJADO
+
 df_capacidade.to_excel('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\DADOS\\ANP\\BIODIESEL\\Dados Biodiesel Capacidade.xlsx', index=False)
+df_capacidade.to_html('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\CHATBOT\\Banco de dados Bot\\Dados Biodiesel Capacidade.html', index=False)
 
 df_matprima = pd.read_csv('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\DADOS\\ANP\\BIODIESEL\\Dados em csv\\Biodiesel_DadosAbertos_CSV_MatériaPrima.csv')
 df_matprima['Quantidade (m³)'] = df_matprima['Quantidade (m³)'].str.replace(',', '.').astype(float)
+df_matprima['Produto'] = df_matprima['Produto'].replace('ÓLEO DE ALGODÃO (GOSSYPIUM HIRSUT)', 'ÓLEO DE ALGODÃO').replace('ÓLEO DE COLZA/CANOLA (BRESSICA CAMPESTRIS)', 'ÓLEO DE COLZA/CANOLA').replace('ÓLEO DE PALMA/DENDÊ (ELAEIS GUINEENSIS OU ELAEIS O', 'ÓLEO DE PALMA/DENDÊ').replace('ÓLEO DE SOJA (GLYCINE MAX)', 'ÓLEO DE SOJA')
+df_matprima.rename(columns={'Mês/Ano': 'Data'}, inplace=True)
+df_matprima['Data'] = pd.to_datetime(df_matprima['Data'], format='%m/%Y', errors='coerce')
+df_matprima['Data'] = df_matprima['Data'].dt.strftime('%d/%m/%Y') 
+
 df_matprima.to_excel('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\DADOS\\ANP\\BIODIESEL\\Dados Biodiesel Materia Prima.xlsx', index=False)
+df_matprima.to_html('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\CHATBOT\\Banco de dados Bot\\Dados Biodiesel Materia Prima.html', index=False)
 
 df_prod = pd.read_csv('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\DADOS\\ANP\\BIODIESEL\\Dados em csv\\Biodiesel_DadosAbertos_CSV_Produç╞o.csv')
 df_prod['Produção de Biodiesel'] = df_prod['Produção de Biodiesel'].str.replace(',', '.').astype(float)
+df_prod.rename(columns={'Mês/Ano': 'Data'}, inplace=True)
+df_prod['Data'] = pd.to_datetime(df_prod['Data'], format='%m/%Y', errors='coerce')
+df_prod['Data'] = df_prod['Data'].dt.strftime('%d/%m/%Y') 
+
 df_prod.to_excel('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\DADOS\\ANP\\BIODIESEL\\Dados Biodiesel Produção.xlsx', index=False)
+df_prod.to_html('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\CHATBOT\\Banco de dados Bot\\Dados Biodiesel Producao.html', index=False)
 
 df_vendas = pd.read_csv('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\DADOS\\ANP\\BIODIESEL\\Dados em csv\\Biodiesel_DadosAbertos_CSV_Vendas.csv')
 df_vendas['Vendas de Biodiesel'] = df_vendas['Vendas de Biodiesel'].str.replace(',', '.').astype(float)
+df_vendas.rename(columns={'Mês/Ano': 'Data'}, inplace=True)
+df_vendas['Data'] = pd.to_datetime(df_vendas['Data'], format='%m/%Y', errors='coerce')
+df_vendas['Data'] = df_vendas['Data'].dt.strftime('%d/%m/%Y') 
+
 df_vendas.to_excel('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\DADOS\\ANP\\BIODIESEL\\Dados Biodiesel Vendas.xlsx', index=False)
+df_vendas.to_html('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\CHATBOT\\Banco de dados Bot\\Dados Biodiesel Vendas.html', index=False)
 
 
 planilha_principal = openpyxl.Workbook()
@@ -90,5 +112,6 @@ for sheet_name in planilha_principal.sheetnames:
         cell = worksheet.cell(row=1, column=col_num)
         cell.font = Font(bold=True)
         cell.border = Border(left=Side(style='thin'), right=Side(style='thin'), top=Side(style='thin'), bottom=Side(style='thin'))
-        
+
+
 planilha_principal.save("C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\DADOS\\ANP\\BIODIESEL\\BIODIESEL ANP.xlsx")
