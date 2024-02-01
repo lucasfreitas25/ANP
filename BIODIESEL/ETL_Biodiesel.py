@@ -23,7 +23,6 @@ df_capacidade['Data'] = pd.to_datetime(df_capacidade['Data'], format='%m/%Y', er
 df_capacidade['Data'] = df_capacidade['Data'].dt.strftime('%d/%m/%Y') #VOLTA PARA STRING NO FORMATO DESEJADO
 
 df_tanca = pd.read_csv('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\DADOS\\ANP\\BIODIESEL\\Dados em csv\\Biodiesel_DadosAbertos_CSV_Tancagem.csv', dtype={'CNPJ':str})
-#df_tanca['Tancagem Biodiesel (m³'] = df_tanca['Tancagem Biodiesel (m³'].str.replace(',', '.').astype(float)
 df_tanca.rename(columns={'Mês/Ano': 'Data'}, inplace=True)
 df_tanca['Data'] = pd.to_datetime(df_tanca['Data'], format='%m/%Y', errors='coerce')
 df_tanca['Data'] = df_tanca['Data'].dt.strftime('%d/%m/%Y') 
@@ -34,7 +33,8 @@ df_capacidade.to_html('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivo
 #MATERIA PRIMA
 df_matprima = pd.read_csv('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\DADOS\\ANP\\BIODIESEL\\Dados em csv\\Biodiesel_DadosAbertos_CSV_MatériaPrima.csv')
 df_matprima['Quantidade (m³)'] = df_matprima['Quantidade (m³)'].str.replace(',', '.').astype(float)
-df_matprima['Produto'] = df_matprima['Produto'].replace('ÓLEO DE ALGODÃO (GOSSYPIUM HIRSUT)', 'ÓLEO DE ALGODÃO').replace('ÓLEO DE COLZA/CANOLA (BRESSICA CAMPESTRIS)', 'ÓLEO DE COLZA/CANOLA').replace('ÓLEO DE PALMA/DENDÊ (ELAEIS GUINEENSIS OU ELAEIS O', 'ÓLEO DE PALMA/DENDÊ').replace('ÓLEO DE SOJA (GLYCINE MAX)', 'ÓLEO DE SOJA')
+df_matprima['Produto'] = df_matprima['Produto'].replace('ÓLEO DE ALGODÃO (GOSSYPIUM HIRSUT)', 'ÓLEO DE ALGODÃO').replace('ÓLEO DE COLZA/CANOLA (BRESSICA CAMPESTRIS)', \
+    'ÓLEO DE COLZA/CANOLA').replace('ÓLEO DE PALMA/DENDÊ (ELAEIS GUINEENSIS OU ELAEIS O', 'ÓLEO DE PALMA/DENDÊ').replace('ÓLEO DE SOJA (GLYCINE MAX)', 'ÓLEO DE SOJA')
 df_matprima.rename(columns={'Mês/Ano': 'Data'}, inplace=True)
 df_matprima['Data'] = pd.to_datetime(df_matprima['Data'], format='%m/%Y', errors='coerce')
 df_matprima['Data'] = df_matprima['Data'].dt.strftime('%d/%m/%Y') 
@@ -96,10 +96,9 @@ lista_abas = [aba_capacidade, aba_matprima, aba_prod, aba_vendas]
 for abas in lista_abas:
     ajustar_colunas(abas)
     
-    
 ############################    
 worksheet = planilha_principal.active
-df = pd.read_excel('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\DADOS\\ANP\\BIODIESEL\\BIODIESEL ANP.xlsx')
+df = pd.read_excel('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\DADOS\\ANP\\BIODIESEL\\BIODIESEL ANP.xlsx') 
 
 for sheet_name in planilha_principal.sheetnames:
     worksheet = planilha_principal[sheet_name]

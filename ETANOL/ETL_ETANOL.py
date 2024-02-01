@@ -2,6 +2,7 @@ from urllib.request import urlretrieve
 from zipfile import ZipFile
 import pandas as pd 
 import openpyxl
+from ajustar_planilha import ajustar_bordas, ajustar_colunas
 from openpyxl.styles import Border, Side, Font
 from openpyxl.utils import get_column_letter
 
@@ -15,8 +16,7 @@ with ZipFile(arquivo, "r") as zip:
     zip.extractall('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\DADOS\\ANP\\ETANOL\\Dados em csv')
 
 #FAZ LIMPEZA E MUDANÇAS ESTRUTURAIS
-df_capacidade = pd.read_csv('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\DADOS\\ANP\\ETANOL\\Dados em csv\\Etanol_DadosAbertos_CSV_Capacidade.csv')
-df_capacidade['CNPJ'] = df_capacidade['CNPJ'].astype(str)
+df_capacidade = pd.read_csv('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\DADOS\\ANP\\ETANOL\\Dados em csv\\Etanol_DadosAbertos_CSV_Capacidade.csv', dtype={'CNPJ': str})
 df_capacidade.rename(columns={'Mês/Ano': 'Data'}, inplace=True)
 df_capacidade['Data'] = pd.to_datetime(df_capacidade['Data'], format='%m/%Y', errors='coerce')
 df_capacidade['Data'] = df_capacidade['Data'].dt.strftime('%d/%m/%Y')
@@ -69,19 +69,6 @@ for aba in planilha_principal.sheetnames:
     if aba not in ["CAPACIDADE", "MATERIA PRIMA", "PRODUÇÃO"]:
         del planilha_principal[aba]
 
-########################
-def ajustar_colunas(aba):
-    for coluna in aba.columns:
-        max_length = 0
-        coluna = [cell for cell in coluna]
-        for cell in coluna:
-            try:
-                if len(str(cell.value)) > max_length:
-                    max_length = len(cell.value)
-            except:
-                pass
-        adjusted_width = (max_length + 2)
-        aba.column_dimensions[get_column_letter(coluna[0].column)].width = adjusted_width
 
 lista_abas = [aba_capacidade, aba_matprima, aba_prod]
 for abas in lista_abas:
