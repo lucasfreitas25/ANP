@@ -13,6 +13,7 @@ def ajustar_colunas(aba):
                     pass
             adjusted_width = max(max_length, len(str(cell.value))) + 2
             aba.column_dimensions[get_column_letter(coluna[0].column)].width = adjusted_width
+            
 def ajustar_bordas(planilha):
 
     for sheet_name in planilha.sheetnames:

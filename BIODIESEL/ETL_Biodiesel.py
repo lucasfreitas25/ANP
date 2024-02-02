@@ -98,15 +98,7 @@ for abas in lista_abas:
     
 ############################    
 worksheet = planilha_principal.active
-df = pd.read_excel('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\DADOS\\ANP\\BIODIESEL\\BIODIESEL ANP.xlsx') 
 
-for sheet_name in planilha_principal.sheetnames:
-    worksheet = planilha_principal[sheet_name]
-    
-    for col_num in range(1, worksheet.max_column + 1):
-        cell = worksheet.cell(row=1, column=col_num)
-        cell.font = Font(bold=True)
-        cell.border = Border(left=Side(style='thin'), right=Side(style='thin'), top=Side(style='thin'), bottom=Side(style='thin'))
-
+ajustar_bordas(planilha_principal)
 
 planilha_principal.save("C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\DADOS\\ANP\\BIODIESEL\\BIODIESEL ANP.xlsx")
