@@ -3,8 +3,6 @@ from zipfile import ZipFile
 import pandas as pd 
 import openpyxl
 from ajustar_planilha import ajustar_bordas, ajustar_colunas
-from openpyxl.styles import Border, Side, Font
-from openpyxl.utils import get_column_letter
 
 #BAIXA O ARQUIVO E EXTRAI ELE PARA UMA PASTA
 url = 'https://www.gov.br/anp/pt-br/assuntos/producao-e-fornecimento-de-biocombustiveis/etanol/arquivos-etanol/pb-da-etanol.zip'
@@ -51,7 +49,6 @@ wb_capacidade = openpyxl.load_workbook('C:\\Users\\LucasFreitas\\Documents\\Luca
 wb_matprima = openpyxl.load_workbook("C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\DADOS\\ANP\\ETANOL\\Dados Etanol Materia Prima.xlsx")  
 wb_prod = openpyxl.load_workbook('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\DADOS\\ANP\\ETANOL\\Dados Etanol Produção.xlsx')
 
-
 aba_capacidade = planilha_principal.create_sheet("CAPACIDADE")
 aba_matprima = planilha_principal.create_sheet("MATERIA PRIMA")
 aba_prod = planilha_principal.create_sheet("PRODUÇÃO")
@@ -69,22 +66,13 @@ for aba in planilha_principal.sheetnames:
     if aba not in ["CAPACIDADE", "MATERIA PRIMA", "PRODUÇÃO"]:
         del planilha_principal[aba]
 
-
 lista_abas = [aba_capacidade, aba_matprima, aba_prod]
 for abas in lista_abas:
     ajustar_colunas(abas)
     
-    
 ############################    
 worksheet = planilha_principal.active
-df = pd.read_excel('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\DADOS\\ANP\\ETANOL\\ETANOL ANP.xlsx')
 
-for sheet_name in planilha_principal.sheetnames:
-    worksheet = planilha_principal[sheet_name]
-    
-    for col_num in range(1, worksheet.max_column + 1):
-        cell = worksheet.cell(row=1, column=col_num)
-        cell.font = Font(bold=True)
-        cell.border = Border(left=Side(style='thin'), right=Side(style='thin'), top=Side(style='thin'), bottom=Side(style='thin'))
+ajustar_bordas(planilha_principal)
 
 planilha_principal.save("C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\DADOS\\ANP\\ETANOL\\ETANOL ANP.xlsx")
