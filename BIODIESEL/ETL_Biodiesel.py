@@ -27,8 +27,10 @@ df_tanca.rename(columns={'Mês/Ano': 'Data'}, inplace=True)
 df_tanca['Data'] = pd.to_datetime(df_tanca['Data'], format='%m/%Y', errors='coerce')
 df_tanca['Data'] = df_tanca['Data'].dt.strftime('%d/%m/%Y') 
 df_capacidade = pd.merge(df_capacidade, df_tanca, on=['Data', 'Razão Social', 'CNPJ', 'Estado', 'Região', 'Município'], how='inner')
+
 df_capacidade.to_excel('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\DADOS\\ANP\\BIODIESEL\\Dados Biodiesel Capacidade.xlsx', index=False)
 df_capacidade.to_html('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\CHATBOT\\Banco de dados Bot\\Dados Biodiesel Capacidade.html', index=False)
+df_capacidade.to_string('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\CHATBOT\\Banco de dados Bot\\Dados Biodiesel Capacidade.txt', index=False)
 
 #MATERIA PRIMA
 df_matprima = pd.read_csv('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\DADOS\\ANP\\BIODIESEL\\Dados em csv\\Biodiesel_DadosAbertos_CSV_MatériaPrima.csv')
@@ -41,6 +43,7 @@ df_matprima['Data'] = df_matprima['Data'].dt.strftime('%d/%m/%Y')
 
 df_matprima.to_excel('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\DADOS\\ANP\\BIODIESEL\\Dados Biodiesel Materia Prima.xlsx', index=False)
 df_matprima.to_html('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\CHATBOT\\Banco de dados Bot\\Dados Biodiesel Materia Prima.html', index=False)
+df_matprima.to_string('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\CHATBOT\\Banco de dados Bot\\Dados Biodiesel Materia Prima.txt', index=False)
 
 #PRODUÇÃO
 df_prod = pd.read_csv('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\DADOS\\ANP\\BIODIESEL\\Dados em csv\\Biodiesel_DadosAbertos_CSV_Produç╞o.csv')
@@ -51,6 +54,8 @@ df_prod['Data'] = df_prod['Data'].dt.strftime('%d/%m/%Y')
 
 df_prod.to_excel('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\DADOS\\ANP\\BIODIESEL\\Dados Biodiesel Produção.xlsx', index=False)
 df_prod.to_html('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\CHATBOT\\Banco de dados Bot\\Dados Biodiesel Producao.html', index=False)
+df_prod.to_string('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\CHATBOT\\Banco de dados Bot\\Dados Biodiesel Producao.txt', index=False)
+
 
 #VENDAS
 df_vendas = pd.read_csv('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\DADOS\\ANP\\BIODIESEL\\Dados em csv\\Biodiesel_DadosAbertos_CSV_Vendas.csv')
@@ -61,6 +66,7 @@ df_vendas['Data'] = df_vendas['Data'].dt.strftime('%d/%m/%Y')
 
 df_vendas.to_excel('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\DADOS\\ANP\\BIODIESEL\\Dados Biodiesel Vendas.xlsx', index=False)
 df_vendas.to_html('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\CHATBOT\\Banco de dados Bot\\Dados Biodiesel Vendas.html', index=False)
+df_vendas.to_string('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\CHATBOT\\Banco de dados Bot\\Dados Biodiesel Vendas.html', index=False)
 
 planilha_principal = openpyxl.Workbook()
 

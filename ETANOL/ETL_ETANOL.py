@@ -4,6 +4,7 @@ import pandas as pd
 import openpyxl
 from ajustar_planilha import ajustar_bordas, ajustar_colunas
 
+
 #BAIXA O ARQUIVO E EXTRAI ELE PARA UMA PASTA
 url = 'https://www.gov.br/anp/pt-br/assuntos/producao-e-fornecimento-de-biocombustiveis/etanol/arquivos-etanol/pb-da-etanol.zip'
 arquivo = 'pb-da-etanol.zip'
@@ -22,6 +23,7 @@ df_capacidade.fillna(value=0, inplace=True)
 
 df_capacidade.to_excel('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\DADOS\\ANP\\ETANOL\\Dados Etanol Capacidade.xlsx', index=False)
 df_capacidade.to_html('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\CHATBOT\\Banco de dados Bot\\Dados Etanol Capacidade.html', index=False)
+df_capacidade.to_string('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\CHATBOT\\Banco de dados Bot\\Dados Etanol Capacidade.txt', index=False)
 
 df_matprima = pd.read_csv('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\DADOS\\ANP\\ETANOL\\Dados em csv\\Etanol_DadosAbertos_CSV_MatériaPrima.csv')
 df_matprima['Quantidade Processada (t)'] = df_matprima['Quantidade Processada (t)'].str.replace(',', '.').astype(float)
@@ -32,6 +34,7 @@ df_matprima.fillna(value=0, inplace=True)
 
 df_matprima.to_excel('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\DADOS\\ANP\\ETANOL\\Dados Etanol Materia Prima.xlsx', index=False)
 df_matprima.to_html('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\CHATBOT\\Banco de dados Bot\\Dados Etanol Materia Prima.html', index=False)
+df_matprima.to_string('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\CHATBOT\\Banco de dados Bot\\Dados Etanol Materia Prima.txt', index=False)
 
 df_prod = pd.read_csv('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\DADOS\\ANP\\ETANOL\\Dados em csv\\Etanol_DadosAbertos_CSV_Produç╞o.csv')
 df_prod.fillna(value=0, inplace=True)
@@ -41,6 +44,7 @@ df_prod['Data'] = df_prod['Data'].dt.strftime('%d/%m/%Y')
 
 df_prod.to_excel('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\DADOS\\ANP\\ETANOL\\Dados Etanol Produção.xlsx', index=False)
 df_prod.to_html('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\CHATBOT\\Banco de dados Bot\\Dados Etanol Producao.html', index=False)
+df_prod.to_string('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\CHATBOT\\Banco de dados Bot\\Dados Etanol Producao.txt', index=False)
 
 #JUNTAR TODAS AS PLANILHAS EM UMA
 planilha_principal = openpyxl.Workbook()
