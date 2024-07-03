@@ -3,7 +3,8 @@ from zipfile import ZipFile
 import pandas as pd 
 import openpyxl
 from ajustar_planilha import ajustar_bordas, ajustar_colunas
-
+from Google import Create_Service
+from Drive import add_arquivos_a_pasta
 
 #BAIXA O ARQUIVO E EXTRAI ELE PARA UMA PASTA
 url = 'https://www.gov.br/anp/pt-br/assuntos/producao-e-fornecimento-de-biocombustiveis/etanol/arquivos-etanol/pb-da-etanol.zip'
@@ -13,38 +14,31 @@ urlretrieve(url, arquivo)
 
 with ZipFile(arquivo, "r") as zip:
     zip.extractall('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\DADOS\\ANP\\ETANOL\\Dados em csv')
-
+    
+def etl_no_df(df):
+    df.rename(columns={'Mês/Ano': 'Data'}, inplace=True)
+    df['Data'] = pd.to_datetime(df['Data'], format='%m/%Y', errors='coerce')
+    df['Data'] = df['Data'].dt.strftime('%d/%m/%Y') #VOLTA PARA STRING NO FORMATO DESEJADO   
 #FAZ LIMPEZA E MUDANÇAS ESTRUTURAIS
 df_capacidade = pd.read_csv('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\DADOS\\ANP\\ETANOL\\Dados em csv\\Etanol_DadosAbertos_CSV_Capacidade.csv', dtype={'CNPJ': str})
-df_capacidade.rename(columns={'Mês/Ano': 'Data'}, inplace=True)
-df_capacidade['Data'] = pd.to_datetime(df_capacidade['Data'], format='%m/%Y', errors='coerce')
-df_capacidade['Data'] = df_capacidade['Data'].dt.strftime('%d/%m/%Y')
+etl_no_df(df_capacidade)
 df_capacidade.fillna(value=0, inplace=True)
 
 df_capacidade.to_excel('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\DADOS\\ANP\\ETANOL\\Dados Etanol Capacidade.xlsx', index=False)
-df_capacidade.to_html('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\CHATBOT\\Banco de dados Bot\\Dados Etanol Capacidade.html', index=False)
-df_capacidade.to_string('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\CHATBOT\\Banco de dados Bot\\Dados Etanol Capacidade.txt', index=False)
 
 df_matprima = pd.read_csv('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\DADOS\\ANP\\ETANOL\\Dados em csv\\Etanol_DadosAbertos_CSV_MatériaPrima.csv')
 df_matprima['Quantidade Processada (t)'] = df_matprima['Quantidade Processada (t)'].str.replace(',', '.').astype(float)
-df_matprima.rename(columns={'Mês/Ano': 'Data'}, inplace=True)
-df_matprima['Data'] = pd.to_datetime(df_matprima['Data'], format='%m/%Y', errors='coerce')
-df_matprima['Data'] = df_matprima['Data'].dt.strftime('%d/%m/%Y')
+etl_no_df(df_matprima)
 df_matprima.fillna(value=0, inplace=True)
 
 df_matprima.to_excel('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\DADOS\\ANP\\ETANOL\\Dados Etanol Materia Prima.xlsx', index=False)
-df_matprima.to_html('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\CHATBOT\\Banco de dados Bot\\Dados Etanol Materia Prima.html', index=False)
-df_matprima.to_string('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\CHATBOT\\Banco de dados Bot\\Dados Etanol Materia Prima.txt', index=False)
 
 df_prod = pd.read_csv('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\DADOS\\ANP\\ETANOL\\Dados em csv\\Etanol_DadosAbertos_CSV_Produç╞o.csv')
 df_prod.fillna(value=0, inplace=True)
-df_prod.rename(columns={'Mês/Ano': 'Data'}, inplace=True)
-df_prod['Data'] = pd.to_datetime(df_prod['Data'], format='%m/%Y', errors='coerce')
-df_prod['Data'] = df_prod['Data'].dt.strftime('%d/%m/%Y')
+etl_no_df(df_prod)
 
 df_prod.to_excel('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\DADOS\\ANP\\ETANOL\\Dados Etanol Produção.xlsx', index=False)
-df_prod.to_html('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\CHATBOT\\Banco de dados Bot\\Dados Etanol Producao.html', index=False)
-df_prod.to_string('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\CHATBOT\\Banco de dados Bot\\Dados Etanol Producao.txt', index=False)
+
 
 #JUNTAR TODAS AS PLANILHAS EM UMA
 planilha_principal = openpyxl.Workbook()
@@ -76,7 +70,26 @@ for abas in lista_abas:
     
 ############################    
 worksheet = planilha_principal.active
-
 ajustar_bordas(planilha_principal)
+planilha_principal.save("C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\TABELAS\\TABELAS EM CSV\\ETANOL ANP.xlsx")
 
-planilha_principal.save("C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\DADOS\\ANP\\ETANOL\\ETANOL ANP.xlsx")
+
+'''
+CLIENT_SECRET_FILE = 'credencials.json'
+API_NAME = 'drive'
+API_VERSION = 'v3'
+SCOPES = ["https://www.googleapis.com/auth/drive"]
+
+service = Create_Service(CLIENT_SECRET_FILE, API_NAME, API_VERSION, SCOPES)
+
+#PASSA O ARQUIVO PARA O DRIVE
+file_id = "1e2yihre6trC07ai7IayhrvLrFP4c57za"
+FILE_NAMES = ["ETANOL ANP.xlsx"]
+MIME_TYPES = ["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"]
+
+add_arquivos_a_pasta(FILE_NAMES, MIME_TYPES, service, file_id)
+'''
+if __name__ == '__main__':
+    from sql import executar_sql 
+    executar_sql()
+
