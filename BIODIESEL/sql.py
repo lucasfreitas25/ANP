@@ -10,7 +10,7 @@ def executar_sql():
     
     biodiesel_capacidade = \
     '''
-    CREATE TABLE anp.biodiesel_capacidade (
+    CREATE TABLE IF NOT EXISTS anp.biodiesel_capacidade (
         Data DATE,
         Razão_Social VARCHAR(255),
         CNPJ CHAR(20),
@@ -23,7 +23,7 @@ def executar_sql():
     '''
     biodiesel_matprima = \
     '''
-    CREATE TABLE anp.biodiesel_matprima (
+    CREATE TABLE IF NOT EXISTS anp.biodiesel_matprima (
         Data DATE,
         Região VARCHAR(25),
         Estado VARCHAR(25),
@@ -41,7 +41,7 @@ def executar_sql():
     
     biodiesel_vendas = \
     '''
-    CREATE TABLE anp.biodiesel_vendas (
+    CREATE TABLE IF NOT EXISTS anp.biodiesel_vendas (
         Data DATE,
         Regiao_Origem VARCHAR(25),
         Regiao_Destino VARCHAR(25),

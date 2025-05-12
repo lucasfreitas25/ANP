@@ -25,6 +25,7 @@ etl_no_df(df_capacidade)
 df_capacidade.fillna(value=0, inplace=True)
 
 df_capacidade.to_excel('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\DADOS\\ANP\\ETANOL\\Dados Etanol Capacidade.xlsx', index=False)
+df_capacidade.to_csv('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\DADOS\\ANP\\ETANOL\\Dados Etanol Capacidade.csv', index=False)
 
 df_matprima = pd.read_csv('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\DADOS\\ANP\\ETANOL\\Dados em csv\\Etanol_DadosAbertos_CSV_MatériaPrima.csv')
 df_matprima['Quantidade Processada (t)'] = df_matprima['Quantidade Processada (t)'].str.replace(',', '.').astype(float)
@@ -38,7 +39,7 @@ df_prod.fillna(value=0, inplace=True)
 etl_no_df(df_prod)
 
 df_prod.to_excel('C:\\Users\\LucasFreitas\\Documents\\Lucas Freitas Arquivos\\DATAHUB\\DADOS\\ANP\\ETANOL\\Dados Etanol Produção.xlsx', index=False)
-
+print(df_prod)
 
 #JUNTAR TODAS AS PLANILHAS EM UMA
 planilha_principal = openpyxl.Workbook()
